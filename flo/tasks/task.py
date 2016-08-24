@@ -247,8 +247,14 @@ class Task(resources.base.BaseResource):
 
         # confirm that all depends resources exist on the filesystem
         if not all(resource.exists() for resource in self.depends_resources):
-            raise CommandLineException(self.depends + (
-                " does not exist just before running this task. "
+            unmet = self.depends
+            if isinstance(unmet, list):
+                unmet = '{} and {} do'.format(', '.join(unmet[:-1]),
+                unmet[-1])
+            else:
+                unmet = unmet + ' does'
+            raise CommandLineException(unmet + (
+                " not exist just before running this task. "
                 "Double check the `depends` to confirm that these "
                 "dependencies are correct for this task."
             ))
