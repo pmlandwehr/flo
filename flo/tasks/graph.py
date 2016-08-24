@@ -8,6 +8,7 @@ import glob
 from distutils.util import strtobool
 import json
 import six
+from six.moves import input
 
 import networkx as nx
 
@@ -274,7 +275,7 @@ class TaskGraph(object):
             self.logger.info(green(self.internals_path))
         for task in task_list:
             self.logger.info(task.creates_message())
-        yesno = raw_input(colors.red("Delete aforementioned files? [Y/n] "))
+        yesno = input(colors.red("Delete aforementioned files? [Y/n] "))
         if yesno == '':
             yesno = 'y'
         return strtobool(yesno)
