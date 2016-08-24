@@ -380,7 +380,7 @@ class TaskGraph(object):
                 else:
                     try:
                         task.timed_run()
-                    except (KeyboardInterrupt, ShellError), error:
+                    except (KeyboardInterrupt, ShellError) as error:
                         self.save_state(
                             override_resource_states={task.name: ''},
                         )
