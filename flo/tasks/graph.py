@@ -108,7 +108,8 @@ class TaskGraph(object):
             if task in source_tasks:
                 distance = 0
             else:
-                distance = max(map(distances.get, task.upstream_tasks)) + 1
+                distance = max([distances.get(x)
+                                for x in task.upstream_tasks]) + 1
             distances[task] = distance
             horizon.remove(task)
             horizon_set.discard(task)
@@ -193,7 +194,7 @@ class TaskGraph(object):
         new graph.
         """
         assert start_at or end_at, "one of {start_at,end_at} must be a task id"
-        start, end = map(self.task_dict.get, [start_at, end_at])
+        start, end = [self.task_dict.get(start_at), self.task_dict.get(end_at)]
         if None in [start, end]:
             graph = self.get_networkx_graph()
             if start:
