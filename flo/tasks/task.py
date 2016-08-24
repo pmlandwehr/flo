@@ -1,6 +1,7 @@
 import os
 import time
-import StringIO
+import six
+from six import StringIO
 import copy
 
 from ..exceptions import InvalidTaskDefinition, CommandLineException
@@ -10,13 +11,18 @@ from .. import resources
 from .. import templates
 from ..types import UniqueOrderedList
 
+if six.PY2:
+    str_types = (str, unicode)
+else:
+    str_types = str
+
 
 def _cast_as_list(obj):
     if isinstance(obj, (list, tuple)):
         return obj
     elif obj is None:
         return []
-    elif isinstance(obj, (str, unicode)):
+    elif isinstance(obj, str_types):
         return [obj]
     else:
         raise TypeError("unexpected type passed to _cast_as_list")
@@ -39,7 +45,7 @@ class Task(resources.base.BaseResource):
                 "every task must define a `creates`",
                 self.yaml_data,
             )
-        if not isinstance(self._creates, (str, unicode)):
+        if not isinstance(self._creates, str_types):
             raise InvalidTaskDefinition(
                 "each task must define a single `creates` as a string",
                 self.yaml_data,
