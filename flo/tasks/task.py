@@ -196,8 +196,7 @@ class Task(resources.base.BaseResource):
         # the machinery in self.get_stream_state to calculate the
         # state
         msg = self.creates + str(self.depends) + str(self._command)
-        keys = self.attrs.keys()
-        keys.sort()
+        keys = sorted(self.attrs.keys())
         for k in keys:
             msg += k + str(self.attrs[k])
         return self.get_stream_state(StringIO(msg))
