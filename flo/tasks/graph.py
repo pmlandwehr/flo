@@ -7,6 +7,7 @@ import datetime
 import glob
 from distutils.util import strtobool
 import json
+import six
 
 import networkx as nx
 
@@ -119,7 +120,7 @@ class TaskGraph(object):
         # now create a decorated list of based on the distance and
         # ordering in the YAML file
         decorated_list = []
-        for task, distance in distances.iteritems():
+        for task, distance in six.iteritems(distances):
             decorated_list.append((
                 distance, self.task_list.index(task), task,
             ))
@@ -432,7 +433,7 @@ class TaskGraph(object):
     def write_to_storage(self, dictionary, storage_location):
         with open(storage_location, 'w') as stream:
             writer = csv.writer(stream)
-            for item in dictionary.iteritems():
+            for item in six.iteritems(dictionary):
                 writer.writerow(item)
 
     def get_state_from_storage(self, resource):
@@ -453,7 +454,7 @@ class TaskGraph(object):
         )
 
         # typecast the task_durations
-        for task_id, duration in self.task_durations.iteritems():
+        for task_id, duration in six.iteritems(self.task_durations):
             self.task_durations[task_id] = float(duration)
 
     def save_state(self, override_resource_states=None):
@@ -469,7 +470,7 @@ class TaskGraph(object):
         # CSV. this is important for situations where a subgraph is
         # selected to run
         after_resource_states = self.read_from_storage(self.abs_state_path)
-        for name, resource in self.resource_dict.iteritems():
+        for name, resource in six.iteritems(self.resource_dict):
             after_resource_states[name] = resource.get_current_state()
 
         # if override states are provided, update the resources
