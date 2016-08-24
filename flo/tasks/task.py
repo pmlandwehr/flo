@@ -200,7 +200,7 @@ class Task(resources.base.BaseResource):
         keys.sort()
         for k in keys:
             msg += k + str(self.attrs[k])
-        return self.get_stream_state(StringIO.StringIO(msg))
+        return self.get_stream_state(StringIO(msg))
 
     def in_sync(self):
         """Test whether this task is in sync with the stored state and
