@@ -129,7 +129,7 @@ class Task(resources.base.BaseResource):
     def config_resource_id(self):
         """Canonical way to identify the resource id associated with this Task
         """
-        return 'config:'+self.id
+        return 'config:' + self.id
 
     @property
     def root_directory(self):
@@ -180,7 +180,6 @@ class Task(resources.base.BaseResource):
         self.downstream_tasks.clear()
 
     def get_all_filenames(self):
-
         """Identify the set of all filenames that pertain to this task
         """
         # TODO: when we allow for non-filesystem targets, this will
@@ -250,7 +249,7 @@ class Task(resources.base.BaseResource):
             unmet = self.depends
             if isinstance(unmet, list):
                 unmet = '{} and {} do'.format(', '.join(unmet[:-1]),
-                unmet[-1])
+                                              unmet[-1])
             else:
                 unmet = unmet + ' does'
             raise CommandLineException(unmet + (
